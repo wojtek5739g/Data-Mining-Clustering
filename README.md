@@ -11,6 +11,18 @@ https://github.com/deric/clustering-benchmark
 Three small ARFF datasets are cached in `data/benchmark` for reproducible local
 runs: `jain`, `flame`, and `spiral`.
 
+## Project Structure
+
+- `ClusteringAlgorithms/`: CLARANS and ROCK implementations.
+- `DataLoader/`: benchmark ARFF loading and preprocessing.
+- `Evaluation/`: internal and external clustering metrics.
+- `Experiments/`: experiment runners for baseline evaluation, parameter sensitivity, and runtime complexity.
+- `Visualization/`: metric, cluster assignment, sensitivity, and runtime plots.
+- `data/benchmark/`: cached benchmark datasets.
+- `results/`: generated CSV result tables and plot images.
+- `main.py`: quick baseline run for both algorithms.
+- `testing.ipynb`: earlier exploratory notebook.
+
 ## Run
 
 ```bash
@@ -72,6 +84,16 @@ For a smaller ROCK threshold sweep:
 python -m Experiments.parameter_sensitivity --algorithm rock --datasets spiral --theta-percentiles 1 2 3 5
 ```
 
+Run runtime complexity experiments:
+
+```bash
+python -m Experiments.runtime_complexity
+```
+
+This saves `results/runtime_complexity.csv`. The experiment measures both
+algorithms on increasing sample sizes and repeats each measurement to reduce
+noise.
+
 ## Visualization
 
 Create plots from the experiment results:
@@ -97,3 +119,27 @@ To generate only cluster plots for selected datasets:
 ```bash
 python -m Visualization.visualization_module --only-clusters --datasets jain spiral
 ```
+
+To generate parameter sensitivity plots from the sensitivity CSV files:
+
+```bash
+python -m Visualization.visualization_module --only-sensitivity
+```
+
+This creates:
+
+- `clarans_sensitivity_ari.png`
+- `clarans_sensitivity_runtime.png`
+- `rock_sensitivity_ari.png`
+- `rock_sensitivity_runtime.png`
+
+To generate runtime complexity plots:
+
+```bash
+python -m Visualization.visualization_module --only-complexity
+```
+
+This creates:
+
+- `runtime_complexity.png`
+- `runtime_complexity_log.png`
